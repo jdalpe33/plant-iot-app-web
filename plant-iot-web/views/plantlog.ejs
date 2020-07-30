@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Plant logs</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+  <h1>Plant List</h1>
+  <ul>
+    <%
+        var list = '';
+        for (i = 0; i < logs.length; i++) {
+          list += '<li><h3>Humidité du sol : ' + logs[i].moisture + ' %, pompe activé : ' + logs[i].isPumpOn + ', dernière activation : ' + logs[i].lastPumpActivation + '</h3></li>';
+        }
+      %>
+    <%- list %>
+  </ul>
+</body>
+
+</html>
