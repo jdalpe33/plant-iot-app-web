@@ -6,7 +6,7 @@ var logger = require('morgan');
 
 //DB STUFF
 var monk = require('monk');
-var db = monk('localhost:27017/plant-iot');
+var db = monk('mongodb://mongo:27017/plant-web');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
