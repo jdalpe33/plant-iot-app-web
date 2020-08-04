@@ -9,6 +9,8 @@
 <body>
   <h1>Plant List</h1>
   <ul>
+    <h1> Humidité du sol : <%= currentData.moisture %>, pompe activé : <%= currentData.isPumpOn %>, dernière
+      activation : <%= currentData.lastPumpActivation %></h1>
     <%
         var list = '';
         for (i = 0; i < logs.length; i++) {

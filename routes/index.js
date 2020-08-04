@@ -4,8 +4,19 @@ var router = express.Router();
 router.get('/', function (req, res) {
   var db = req.db;
   var collection = db.get('plant_iot_log');
-  collection.find({}, {}, function (e, docs) {
+
+  var currentData = null
+  collection.findOne({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
+    //if (err) throw err;
+    currentData = docs;
+    console.log(docs);
+  });
+
+  //var updatedData = db.get('plant_iot_log').find().sort({ lastPumpActivation: -1 }).limit(1);
+
+  collection.find({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
     res.render('plantlog', {
+      "currentData": currentData,
       "logs": docs
     });
   });

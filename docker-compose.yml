@@ -1,7 +1,7 @@
-version '3'
+version: '3'
 services:
     app:
-        container_name: plant-web
+        container_name: plantweb
         restart: always
         build: .
         ports:
