@@ -28,7 +28,7 @@
                     <img class="card-img-top" src="../public/images/water.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title" style="font-size: 1.2rem;">Humidité du sol</h5>
-                        <p class=" card-text">75%</p>
+                        <p class=" card-text"><%= currentData.moisture %>%</p>
                     </div>
                 </div>
                 <div class="col-md-1"></div>
@@ -36,7 +36,7 @@
                     <img class="card-img-top" src="../public/images/temperature.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title" style="font-size: 1.2rem;">Température</h5>
-                        <p class="card-text">25 C</p>
+                        <p class="card-text"><%= currentData.temperature %>°C</p>
                     </div>
                 </div>
                 <div class="col-md-1"></div>
@@ -44,7 +44,7 @@
                     <img class="card-img-top" src="../public/images/electric.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title" style="font-size: 1.2rem;">Pompe</h5>
-                        <p class=" card-text">Arrêté</p>
+                        <p class=" card-text"><%= currentData.isPumpOn %></p>
                     </div>
                 </div>
                 <div class="col-md-1"></div>
@@ -52,7 +52,7 @@
                     <img class=" card-img-top" src="../public/images/report.png" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title" style="font-size: 1.2rem;">Dernier arrosage</h5>
-                        <p class=" card-text">10:56:08</p>
+                        <p class=" card-text"><%= currentData.lastPumpActivation %></p>
                     </div>
                 </div>
                 <div class="col-md-1"></div>

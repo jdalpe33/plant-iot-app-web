@@ -7,19 +7,23 @@ router.get('/', function (req, res) {
 
   var currentData = null
   collection.findOne({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
-    //if (err) throw err;
     currentData = docs;
     console.log(docs);
+
+    res.render('home', {
+      "currentData": currentData
+    });
   });
 
   //var updatedData = db.get('plant_iot_log').find().sort({ lastPumpActivation: -1 }).limit(1);
-
+  /*
   collection.find({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
     res.render('plantlog', {
       "currentData": currentData,
       "logs": docs
     });
   });
+  */
 });
 
 router.post('/addlog', function (req, res) {
