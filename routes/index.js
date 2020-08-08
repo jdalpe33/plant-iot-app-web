@@ -2,7 +2,7 @@ var express = require('express');
 var dateFormat = require('dateformat');
 var router = express.Router();
 
-var lastSave = new Date();
+var lastSave = null;
 var currentData = null;
 
 var gotStartRequest = false;
@@ -101,7 +101,7 @@ router.post('/addlog', function (req, res) {
 
   console.log(d.getTime() - lastSave.getTime() + ">" + 1 * 60 * 1000);
 
-  if (d.getTime() - lastSave.getTime() > 1 * 60 * 1000) {
+  if (lastSave == null || d.getTime() - lastSave.getTime() > 1 * 60 * 1000) {
     console.log("saving minute log");
     lastSave = d;
     // Set our collection
