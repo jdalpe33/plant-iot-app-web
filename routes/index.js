@@ -99,9 +99,13 @@ router.post('/addlog', function (req, res) {
   var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
   d.setUTCSeconds(utcSeconds);
 
+  if (lastSave == null) {
+    lastSave = d;
+  }
+
   console.log(d.getTime() - lastSave.getTime() + ">" + 1 * 60 * 1000);
 
-  if (lastSave == null || d.getTime() - lastSave.getTime() > 1 * 60 * 1000) {
+  if (d.getTime() - lastSave.getTime() > 1 * 60 * 1000) {
     console.log("saving minute log");
     lastSave = d;
     // Set our collection
