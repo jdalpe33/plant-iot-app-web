@@ -66,6 +66,30 @@ router.get('/stop', function (req, res) {
   res.send();
 });
 
+router.get('/data', function (req, res) {
+  var db = req.db;
+  var collection = db.get('plant_iot_log');
+
+  if (currentData == null) {
+    console.log("current data is null");
+    collection.findOne({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
+      currentData = docs;
+      console.log(docs);
+
+      if (currentData.isPumpOn == true) {
+        currentData.isPumpOn = "En marche";
+      } else if (currentData.isPumpOn == false) {
+        currentData.isPumpOn = "À l'arrêt";
+      }
+
+      var myDate = new Date(currentData.lastPumpActivation);
+      currentData.lastPumpActivation = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
+    });
+  }
+
+  res.send(currentData);
+});
+
 router.get('/requests/start', function (req, res) {
   if (gotStartRequest) {
     res.status(200).send();
