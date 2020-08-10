@@ -131,7 +131,7 @@ router.post('/addlog', function (req, res) {
 
   if (new Date().getTime() - lastSave.getTime() > 10 * 60 * 1000) {
     console.log("saving minute log");
-    lastSave = d;
+    lastSave = new Date().getTime();
     // Set our collection
     var collection = db.get('plant_iot_log');
 
