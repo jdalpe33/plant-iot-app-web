@@ -76,14 +76,16 @@ router.get('/data', function (req, res) {
       currentData = docs;
       console.log(docs);
 
-      if (currentData.isPumpOn == true) {
-        currentData.isPumpOn = "En marche";
-      } else if (currentData.isPumpOn == false) {
-        currentData.isPumpOn = "À l'arrêt";
-      }
+      if (currentData != null) {
+        if (currentData.isPumpOn == true) {
+          currentData.isPumpOn = "En marche";
+        } else if (currentData.isPumpOn == false) {
+          currentData.isPumpOn = "À l'arrêt";
+        }
 
-      var myDate = new Date(currentData.lastPumpActivation);
-      currentData.lastPumpActivation = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
+        var myDate = new Date(currentData.lastPumpActivation);
+        currentData.lastPumpActivation = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
+      }
     });
   }
 
