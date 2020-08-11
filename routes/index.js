@@ -73,6 +73,7 @@ router.get('/data', function (req, res) {
 
 
   collection.findOne({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
+    console.log(docs.lastPumpActivation);
     if (docs.isPumpOn == true) {
       docs.isPumpOn = "En marche";
     } else if (docs.isPumpOn == false) {
