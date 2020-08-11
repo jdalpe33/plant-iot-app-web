@@ -93,28 +93,6 @@ router.get('/data', function (req, res) {
     currentData.lastPumpActivation = lastPumpActivationInfo.lastPumpActivation;
   }
 
-  /*
-  collection.findOne({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
-    latestPumpActivationData = docs;
-    console.log(docs);
-
-    var dataToShow = currentData;
-
-    if (dataToShow == null) {
-      dataToShow = latestPumpActivationData;
-    }
-
-    if (dataToShow.isPumpOn == true) {
-      dataToShow.isPumpOn = "En marche";
-    } else if (dataToShow.isPumpOn == false) {
-      dataToShow.isPumpOn = "À l'arrêt";
-    }
-
-    var myDate = new Date(dataToShow.lastPumpActivation);
-    dataToShow.lastPumpActivation = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
-  });
-
-  currentData = dataToShow;*/
   res.send(currentData);
 });
 
@@ -177,7 +155,7 @@ router.post('/addlog', function (req, res) {
     });
   }
 
-  /*
+
   if (isPumpOn == true) {
     isPumpOn = "En marche";
   } else if (isPumpOn == false) {
@@ -185,7 +163,7 @@ router.post('/addlog', function (req, res) {
   }
 
   d = dateFormat(d, "h:MM:ss, dddd, mmmm dS");
-  */
+
   currentData = {
     "moisture": moisture,
     "isPumpOn": isPumpOn,
