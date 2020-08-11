@@ -71,7 +71,7 @@ router.get('/data', function (req, res) {
   var collection = db.get('plant_iot_log');
 
 
-
+  /*
   collection.findOne({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
     latestPumpActivationData = docs;
     console.log(docs);
@@ -92,8 +92,8 @@ router.get('/data', function (req, res) {
     dataToShow.lastPumpActivation = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
   });
 
-  currentData = dataToShow;
-  res.send(dataToShow);
+  currentData = dataToShow;*/
+  res.send(currentData);
 });
 
 router.get('/requests/start', function (req, res) {
@@ -130,7 +130,7 @@ router.post('/addlog', function (req, res) {
   d.setUTCSeconds(utcSeconds);
 
   if (lastSave == null) {
-    lastSave = d;
+    lastSave = new Date(0);
   }
 
   console.log(new Date().getTime() - lastSave.getTime() + ">" + 1 * 60 * 1000);
@@ -155,6 +155,7 @@ router.post('/addlog', function (req, res) {
     });
   }
 
+  /*
   if (isPumpOn == true) {
     isPumpOn = "En marche";
   } else if (isPumpOn == false) {
@@ -162,7 +163,7 @@ router.post('/addlog', function (req, res) {
   }
 
   d = dateFormat(d, "h:MM:ss, dddd, mmmm dS");
-
+  */
   currentData = {
     "moisture": moisture,
     "isPumpOn": isPumpOn,
