@@ -92,6 +92,7 @@ router.get('/data', function (req, res) {
     dataToShow.lastPumpActivation = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
   });
 
+  currentData = dataToShow;
   res.send(dataToShow);
 });
 
@@ -132,7 +133,7 @@ router.post('/addlog', function (req, res) {
     lastSave = d;
   }
 
-  console.log(new Date().getTime() - lastSave.getTime() + ">" + 10 * 60 * 1000);
+  console.log(new Date().getTime() - lastSave.getTime() + ">" + 1 * 60 * 1000);
 
   if (new Date().getTime() - lastSave.getTime() > 1 * 60 * 1000) {
     console.log("saving minute log");
