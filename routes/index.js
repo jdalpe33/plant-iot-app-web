@@ -88,6 +88,8 @@ router.get('/data', function (req, res) {
       currentData.lastPumpActivation = docs.lastPumpActivation;
     }
 
+    console.log(docs.lastPumpActivation);
+
     res.send(currentData);
   });
 });
