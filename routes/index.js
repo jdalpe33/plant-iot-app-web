@@ -70,26 +70,29 @@ router.get('/data', function (req, res) {
   var db = req.db;
   var collection = db.get('plant_iot_log');
 
-  if (currentData == null) {
-    console.log("current data is null");
-    collection.findOne({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
-      currentData = docs;
-      console.log(docs);
 
-      if (currentData != null) {
-        if (currentData.isPumpOn == true) {
-          currentData.isPumpOn = "En marche";
-        } else if (currentData.isPumpOn == false) {
-          currentData.isPumpOn = "À l'arrêt";
-        }
 
-        var myDate = new Date(currentData.lastPumpActivation);
-        currentData.lastPumpActivation = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
-      }
-    });
-  }
+  collection.findOne({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
+    latestPumpActivationData = docs;
+    console.log(docs);
 
-  res.send(currentData);
+    var dataToShow = currentData;
+
+    if (dataToShow == null) {
+      dataToShow = latestPumpActivationData;
+    }
+
+    if (dataToShow.isPumpOn == true) {
+      dataToShow.isPumpOn = "En marche";
+    } else if (dataToShow.isPumpOn == false) {
+      dataToShow.isPumpOn = "À l'arrêt";
+    }
+
+    var myDate = new Date(dataToShow.lastPumpActivation);
+    dataToShow.lastPumpActivation = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
+  });
+
+  res.send(dataToShow);
 });
 
 router.get('/requests/start', function (req, res) {
@@ -131,9 +134,9 @@ router.post('/addlog', function (req, res) {
 
   console.log(new Date().getTime() - lastSave.getTime() + ">" + 10 * 60 * 1000);
 
-  if (new Date().getTime() - lastSave.getTime() > 10 * 60 * 1000) {
+  if (new Date().getTime() - lastSave.getTime() > 1 * 60 * 1000) {
     console.log("saving minute log");
-    lastSave = new Date().getTime();
+    lastSave = new Date();
     // Set our collection
     var collection = db.get('plant_iot_log');
 
