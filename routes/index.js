@@ -70,6 +70,28 @@ router.get('/data', function (req, res) {
   var db = req.db;
   var collection = db.get('plant_iot_log');
 
+  var lastPumpActivationInfo;
+
+  collection.findOne({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
+
+    if (docs.isPumpOn == true) {
+      docs.isPumpOn = "En marche";
+    } else if (docs.isPumpOn == false) {
+      docs.isPumpOn = "À l'arrêt";
+    }
+
+    var myDate = new Date(docs.lastPumpActivation);
+    docs.lastPumpActivation = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
+
+    lastPumpActivationInfo = docs;
+  });
+
+
+  if (currentData == null) {
+    currentData = lastPumpActivationInfo;
+  } else {
+    currentData.lastPumpActivation = lastPumpActivationInfo.lastPumpActivation;
+  }
 
   /*
   collection.findOne({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
