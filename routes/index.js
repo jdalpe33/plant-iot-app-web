@@ -51,13 +51,13 @@ router.get('/data', function (req, res) {
       currentData = docs;
     }
 
-    var dataToSend = currentData;
+    //var dataToSend = currentData;
 
-    var myDate = new Date();
-    myDate.setSeconds(dataToSend.epoch);
-    dataToSend.epoch = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
+    //var myDate = new Date();
+    //myDate.setSeconds(dataToSend.epoch);
+    //dataToSend.epoch = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
 
-    res.send(dataToSend);
+    res.send(currentData);
   });
 });
 
@@ -91,6 +91,10 @@ router.post('/addlog', function (req, res) {
   var epoch = req.body.epoch;
   var temperature = req.body.temperature;
 
+  var date = new Date();
+  date.setUTCSeconds(epoch);
+  epoch = date;
+
   if (lastSave == null) {
     lastSave = new Date(0);
   }
@@ -102,6 +106,8 @@ router.post('/addlog', function (req, res) {
     lastSave = new Date();
     // Set our collection
     var collection = db.get('plant_iot_log');
+
+
 
     // Submit to the DB
     collection.insert({
