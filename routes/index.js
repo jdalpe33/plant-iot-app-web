@@ -91,8 +91,8 @@ router.post('/addlog', function (req, res) {
   var epoch = req.body.epoch;
   var temperature = req.body.temperature;
 
-  var date = new Date(epoch);
-  //date.setSeconds();
+  var date = new Date(0);
+  date.setUTCSeconds(epoch);
   epoch = date;
 
   if (lastSave == null) {
