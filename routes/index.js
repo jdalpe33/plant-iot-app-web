@@ -51,12 +51,7 @@ router.get('/data', function (req, res) {
       currentData = docs;
     }
 
-    var dataToSend = currentData;
-
-    d = dateFormat(dataToSend.epoch, "h:MM:ss, dddd, mmmm dS");
-    dataToSend.epoch = d;
-
-    res.send(dataToSend);
+    res.send(currentData);
   });
 });
 
@@ -92,6 +87,7 @@ router.post('/addlog', function (req, res) {
 
   var date = new Date(0);
   date.setUTCSeconds(epoch);
+  //date = dateFormat(date, "h:MM:ss, dddd, mmmm dS");
   epoch = date;
 
   if (lastSave == null) {
