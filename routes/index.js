@@ -51,11 +51,13 @@ router.get('/data', function (req, res) {
       currentData = docs;
     }
 
-    var myDate = new Date();
-    myDate.setSeconds(currentData.epoch);
-    currentData.epoch = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
+    var dataToSend = currentData;
 
-    res.send(currentData);
+    var myDate = new Date();
+    myDate.setSeconds(dataToSend.epoch);
+    dataToSend.epoch = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
+
+    res.send(dataToSend);
   });
 });
 
