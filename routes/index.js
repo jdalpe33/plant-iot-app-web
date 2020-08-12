@@ -52,7 +52,7 @@ router.get('/data', function (req, res) {
     }
 
     var myDate = new Date();
-    myDate.setUTCSeconds(currentData.epoch);
+    myDate.setSeconds(currentData.epoch);
     currentData.epoch = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
 
     res.send(currentData);
