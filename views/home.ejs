@@ -51,8 +51,8 @@
                 <div class="col-lg-2 card p-0" style="max-width: 300px;">
                     <img class=" card-img-top" src="images/report.png" alt="Card image cap">
                     <div class="card-body">
-                        <h5 class="card-title" style="font-size: 1.2rem;">Dernier arrosage</h5>
-                        <p id="lastPumpActivation" class=" card-text"><%= currentData.lastPumpActivation %></p>
+                        <h5 class="card-title" style="font-size: 1.2rem;">Temps</h5>
+                        <p id="epoch" class=" card-text"><%= currentData.epoch %></p>
                     </div>
                 </div>
                 <div class="col-lg-1"></div>
@@ -110,7 +110,7 @@
                     $('#moisture').html(result.moisture + "%");
                     $('#temperature').html(result.temperature + "°C");
                     $('#isPumpOn').html(result.isPumpOn);
-                    $('#lastPumpActivation').html(result.lastPumpActivation);
+                    $('#epoch').html(result.epoch);
                 }
             })
         }

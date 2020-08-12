@@ -2,7 +2,7 @@ var express = require('express');
 var dateFormat = require('dateformat');
 var router = express.Router();
 
-var lastSave = new Date();
+var lastSave = new Date(0);
 var currentData = null;
 
 var gotStartRequest = false;
@@ -12,44 +12,18 @@ router.get('/', function (req, res) {
   var db = req.db;
   var collection = db.get('plant_iot_log');
 
-  if (currentData == null) {
-    console.log("current data is null");
-    collection.findOne({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
+  collection.findOne({}, { sort: { epoch: -1 } }, function (e, docs) {
+    if (currentData == null) {
       currentData = docs;
-      console.log(docs);
+    }
 
-      if (currentData.isPumpOn == true) {
-        currentData.isPumpOn = "En marche";
-      } else if (currentData.isPumpOn == false) {
-        currentData.isPumpOn = "À l'arrêt";
-      }
-
-      var myDate = new Date(currentData.lastPumpActivation);
-      currentData.lastPumpActivation = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
-
-      res.render('home', {
-        "currentData": currentData
-      });
-    });
-  } else {
-
-    //var myDate = new Date(currentData.lastPumpActivation);
-    //currentData.lastPumpActivation = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
+    var myDate = new Date(currentData.epoch);
+    currentData.epoch = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
 
     res.render('home', {
       "currentData": currentData
     });
-  }
-
-  //var updatedData = db.get('plant_iot_log').find().sort({ lastPumpActivation: -1 }).limit(1);
-  /*
-  collection.find({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
-    res.render('plantlog', {
-      "currentData": currentData,
-      "logs": docs
-    });
   });
-  */
 });
 
 router.get('/start', function (req, res) {
@@ -72,24 +46,13 @@ router.get('/data', function (req, res) {
 
 
 
-  collection.findOne({}, { sort: { lastPumpActivation: -1 } }, function (e, docs) {
-    console.log(docs.lastPumpActivation);
-    if (docs.isPumpOn == true) {
-      docs.isPumpOn = "En marche";
-    } else if (docs.isPumpOn == false) {
-      docs.isPumpOn = "À l'arrêt";
-    }
-
-    var myDate = new Date(docs.lastPumpActivation);
-    docs.lastPumpActivation = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
-
+  collection.findOne({}, { sort: { epoch: -1 } }, function (e, docs) {
     if (currentData == null) {
       currentData = docs;
-    } else {
-      currentData.lastPumpActivation = docs.lastPumpActivation;
     }
 
-    console.log(docs.lastPumpActivation);
+    var myDate = new Date(currentData.epoch);
+    currentData.epoch = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
 
     res.send(currentData);
   });
@@ -121,12 +84,8 @@ router.post('/addlog', function (req, res) {
   // Get our form values. These rely on the "name" attributes
   var moisture = req.body.moisture;
   var isPumpOn = req.body.isPumpOn;
-  var lastPumpActivation = req.body.lastPumpActivation;
+  var epoch = req.body.epoch;
   var temperature = req.body.temperature;
-
-  var utcSeconds = lastPumpActivation;
-  var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-  d.setUTCSeconds(utcSeconds);
 
   if (lastSave == null) {
     lastSave = new Date(0);
@@ -144,7 +103,7 @@ router.post('/addlog', function (req, res) {
     collection.insert({
       "moisture": moisture,
       "isPumpOn": isPumpOn,
-      "lastPumpActivation": d,
+      "epoch": epoch,
       "temperature": temperature,
     }, function (err, doc) {
       if (err) {
@@ -154,19 +113,12 @@ router.post('/addlog', function (req, res) {
     });
   }
 
-
-  if (isPumpOn == true) {
-    isPumpOn = "En marche";
-  } else if (isPumpOn == false) {
-    isPumpOn = "À l'arrêt";
-  }
-
-  d = dateFormat(d, "h:MM:ss, dddd, mmmm dS");
+  //d = dateFormat(d, "h:MM:ss, dddd, mmmm dS");
 
   currentData = {
     "moisture": moisture,
     "isPumpOn": isPumpOn,
-    "lastPumpActivation": d,
+    "epoch": epoch,
     "temperature": temperature,
   };
 
