@@ -83,6 +83,7 @@ router.post('/addlog', function (req, res) {
   var db = req.db;
 
   // Get our form values. These rely on the "name" attributes
+  console.log(req.body);
   var moisture = req.body.moisture;
   var isPumpOn = req.body.isPumpOn;
   var epoch = req.body.epoch;
