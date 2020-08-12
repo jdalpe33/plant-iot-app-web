@@ -17,8 +17,6 @@ router.get('/', function (req, res) {
       currentData = docs;
     }
 
-    var myDate = new Date(currentData.epoch);
-    currentData.epoch = dateFormat(myDate, "h:MM:ss, dddd, mmmm dS");
 
     res.render('home', {
       "currentData": currentData
@@ -51,7 +49,12 @@ router.get('/data', function (req, res) {
       currentData = docs;
     }
 
-    res.send(currentData);
+    res.send({
+      "moisture": currentData.moisture,
+      "isPumpOn": currentData.isPumpOn ? "En marche" : "À l'arrêt",
+      "epoch": dateFormat(currentData.epoch, "h:MM:ss, dddd, mmmm dS"),
+      "temperature": currentData.temperature,
+    });
   });
 });
 
