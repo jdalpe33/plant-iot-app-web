@@ -121,14 +121,27 @@ router.post('/addlog', function (req, res) {
     });
   }
 
-  //d = dateFormat(d, "h:MM:ss, dddd, mmmm dS");
-
   currentData = {
     "moisture": moisture,
     "isPumpOn": isPumpOn,
     "epoch": epoch,
     "temperature": temperature,
   };
+
+  if (currentData.isPumpOn) {
+    var pumpCollection = db.get('pump_log');
+
+    console.log("insert pump log data");
+
+    pumpCollection.insert({
+      "epoch": epoch,
+    }, function (err, doc) {
+      if (err) {
+        // If it failed, return error
+        res.send("There was a problem adding the information to the pump log database.");
+      }
+    });
+  }
 
   res.send();
 });
